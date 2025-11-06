@@ -1,0 +1,19 @@
+{
+    "name": "yalaguard/backend",
+    "description": "YalaGuard PHP Backend System",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "mongodb/mongodb": "^1.15",
+        "phpmailer/phpmailer": "^6.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "YalaGuard\\": "src/"
+        }
+    },
+    "scripts": {
+        "start": "php -S localhost:8000",
+        "test": "php -S localhost:8000"
+    }
+}

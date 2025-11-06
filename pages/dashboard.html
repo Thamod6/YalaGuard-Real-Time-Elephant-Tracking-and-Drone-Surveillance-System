@@ -1,0 +1,299 @@
+<?php
+/**
+ * YalaGuard Dashboard
+ * 
+ * This page provides the main dashboard for logged-in users.
+ */
+
+// Start session and check authentication
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.html');
+    exit();
+}
+
+$user = [
+    'user_id' => $_SESSION['user_id'],
+    'username' => $_SESSION['username'],
+    'email' => $_SESSION['email'],
+    'full_name' => $_SESSION['full_name'],
+    'role' => $_SESSION['role'],
+    'status' => $_SESSION['status']
+];
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YalaGuard - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .welcome-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .card-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .card-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .card-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div class="logo">🐘 YalaGuard</div>
+            <div class="user-info">
+                <span id="userName">Welcome, <?php echo htmlspecialchars($user['full_name']); ?></span>
+                <a href="../api/auth/logout.php" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="welcome-card">
+            <h1 class="welcome-title">Welcome to YalaGuard Dashboard</h1>
+            <p class="welcome-subtitle">Monitor elephant activities and manage alerts from your control center</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalAlerts">0</div>
+                <div class="stat-label">Total Alerts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeAlerts">0</div>
+                <div class="stat-label">Active Alerts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalElephants">0</div>
+                <div class="stat-label">Tracked Elephants</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="lastAlert">-</div>
+                <div class="stat-label">Last Alert</div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-icon">🚨</div>
+                <h3 class="card-title">Alert Management</h3>
+                <p class="card-description">View and manage elephant alerts, track locations, and respond to incidents in real-time.</p>
+                <a href="../api/alerts.php" class="card-btn">View Alerts</a>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon">🐘</div>
+                <h3 class="card-title">Elephant Tracking</h3>
+                <p class="card-description">Monitor elephant movements, view historical data, and manage elephant profiles.</p>
+                <a href="#" class="card-btn">Track Elephants</a>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon">📊</div>
+                <h3 class="card-title">Analytics & Reports</h3>
+                <p class="card-description">Generate reports, view statistics, and analyze patterns in elephant behavior.</p>
+                <a href="#" class="card-btn">View Reports</a>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-icon">⚙️</div>
+                <h3 class="card-title">System Settings</h3>
+                <p class="card-description">Configure system parameters, manage user accounts, and customize alerts.</p>
+                <a href="#" class="card-btn">Settings</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load dashboard statistics
+        async function loadDashboardData() {
+            try {
+                // For demo purposes, we'll use mock data
+                // In a real application, you'd fetch this from your API
+                document.getElementById('totalAlerts').textContent = '12';
+                document.getElementById('activeAlerts').textContent = '3';
+                document.getElementById('totalElephants').textContent = '8';
+                document.getElementById('lastAlert').textContent = '2h ago';
+                
+                // You can add real API calls here:
+                // const response = await fetch('../api/dashboard/stats.php');
+                // const data = await response.json();
+                // Update the stats with real data
+                
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            }
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', loadDashboardData);
+    </script>
+</body>
+</html>

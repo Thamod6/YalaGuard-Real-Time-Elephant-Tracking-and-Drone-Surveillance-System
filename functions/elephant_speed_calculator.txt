@@ -1,0 +1,121 @@
+ELEPHANT SPEED CALCULATOR FUNCTION
+====================================
+
+FILE: elephant_speed_calculator.txt
+STATUS: Text file placeholder for future development
+CREATED: 2025-01-26
+VERSION: 1.0 (Placeholder)
+
+DESCRIPTION:
+This file contains the specifications and algorithms for calculating elephant speed
+based on various factors. Currently implemented as a text file, this will be
+developed into a full PHP function later.
+
+SPEED CALCULATION FACTORS:
+--------------------------
+
+1. BASE SPEED (by elephant type):
+   - Asian Elephant: 25 km/h
+   - African Bush Elephant: 30 km/h
+   - African Forest Elephant: 22 km/h
+
+2. AGE FACTORS:
+   - Young (0-10 years): +15% speed
+   - Adult (11-30 years): Base speed
+   - Senior (31-50 years): -20% speed
+   - Elderly (51+ years): -35% speed
+
+3. WEIGHT FACTORS:
+   - Light (< 3,000kg): +10% speed
+   - Normal (3,000-5,000kg): Base speed
+   - Heavy (> 5,000kg): -15% speed
+
+4. TERRAIN FACTORS:
+   - Flat grassland: Base speed
+   - Forest: -25% speed
+   - Hills: -30% speed
+   - Water: -40% speed
+   - Mud: -50% speed
+
+5. HEALTH FACTORS:
+   - Excellent: +10% speed
+   - Good: Base speed
+   - Fair: -15% speed
+   - Poor: -30% speed
+   - Critical: -50% speed
+
+6. WEATHER FACTORS:
+   - Clear: Base speed
+   - Light rain: -5% speed
+   - Heavy rain: -20% speed
+   - Extreme heat: -15% speed
+   - Cold: -10% speed
+
+7. TIME OF DAY:
+   - Dawn (5-7 AM): +5% speed
+   - Morning (7-11 AM): Base speed
+   - Afternoon (11-3 PM): -10% speed
+   - Evening (3-7 PM): +5% speed
+   - Night (7-5 AM): -20% speed
+
+CALCULATION ALGORITHM:
+----------------------
+
+Base Speed × Age Factor × Weight Factor × Terrain Factor × Health Factor × Weather Factor × Time Factor = Final Speed
+
+EXAMPLE CALCULATION:
+-------------------
+
+Elephant: Raja (Asian Elephant)
+- Base Speed: 25 km/h
+- Age: 25 years (Adult) = 1.0
+- Weight: 4,500kg (Normal) = 1.0
+- Terrain: Grassland = 1.0
+- Health: Good = 1.0
+- Weather: Clear = 1.0
+- Time: Morning = 1.0
+
+Final Speed = 25 × 1.0 × 1.0 × 1.0 × 1.0 × 1.0 × 1.0 = 25 km/h
+
+FUTURE IMPLEMENTATION:
+----------------------
+
+This will be converted to a PHP function with:
+- Database integration for real-time data
+- API endpoints for speed calculations
+- Real-time monitoring and updates
+- Historical speed tracking
+- Predictive speed modeling
+- Integration with drone tracking system
+
+FUNCTION SIGNATURE (PLANNED):
+----------------------------
+
+function calculateElephantSpeed($elephantId, $terrain, $weather, $timeOfDay) {
+    // Get elephant data from database
+    // Apply all factors
+    // Return calculated speed
+    // Log calculation for analysis
+}
+
+INTEGRATION POINTS:
+------------------
+
+1. Elephant Management System
+2. Drone Tracking System
+3. Real-time Monitoring Dashboard
+4. Alert System (speed anomalies)
+5. Historical Data Analysis
+6. Predictive Maintenance
+
+NOTES:
+------
+
+- All percentages are approximate and based on research data
+- Factors may be adjusted based on real-world observations
+- Speed calculations should be updated every 5-10 minutes
+- Historical data should be stored for trend analysis
+- Speed anomalies should trigger alerts for monitoring staff
+
+END OF FILE
+===========
